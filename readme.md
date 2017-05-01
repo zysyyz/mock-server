@@ -1,6 +1,15 @@
 # Mock server
 
+
 This app will mock http api server, listen default on :7890, it accept any post/get
+
+## Run
+
+To quick run a mock server
+
+```bash
+docker run -d --name ms -p 7890:7890 netroby/mock-server 
+```
 
 ## Road map
 
