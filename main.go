@@ -19,5 +19,5 @@ func main() {
 		}
 		c.JSON(200, gin.H{"status": "ok"})
 	})
-	r.Run()
+	r.Run(":7890")
 }
