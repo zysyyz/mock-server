@@ -1,5 +1,7 @@
 # Mock server
 
+This app will mock http api server, listen default on :7890, it accept any post/get
+
 ## Road map
 
 1. provided toml configure syntax
