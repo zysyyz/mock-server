@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
+	http "net/http"
 	"os"
 )
 
@@ -13,7 +13,6 @@ func main() {
 	WorkDir := flag.String("w", "./www", "working directory")
 	flag.Parse()
 	r := gin.Default()
-	r.Use(static.Serve("/", static.LocalFile(*WorkDir, false)))
 	r.NoRoute(func(c *gin.Context) {
 		str := fmt.Sprintf("%s", c.Request.URL.Query())
 		fmt.Println("Queries:", str)
@@ -23,13 +22,20 @@ func main() {
 			fmt.Println("Request Body:", str2)
 
 		}
+		reqFile := *WorkDir + c.Request.URL.Path
+
 		defaultFile := *WorkDir + "/default"
-		if _, err := os.Stat(defaultFile); err == nil {
-			//TODO
-			c.File(defaultFile)
+		fmt.Println("Request file" + reqFile)
+		content := []byte("{\"status\":\"ok\"}")
+		if _, err := os.Stat(reqFile); err == nil {
+			content, _ = ioutil.ReadFile(reqFile)
 		} else {
-			c.JSON(200, gin.H{"status": "ok"})
+			if _, err := os.Stat(defaultFile); err == nil {
+				content, _ = ioutil.ReadFile(defaultFile)
+			}
 		}
+		c.Data(http.StatusOK, "application/json", content)
+		return
 	})
 
 	r.Run(":7890")
