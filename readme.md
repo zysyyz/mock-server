@@ -16,6 +16,7 @@ make sure ./www exists, and mock-server will try to find exists file to handler 
 
 such as ./www/api/version.json will handle as http://example.com/api/version.json
 
+The default MIME type for response, will be application/json
 
 ## Road map
 
